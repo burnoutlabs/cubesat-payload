@@ -83,6 +83,7 @@ scad/
   generated/        params.scad, generated from data/ (committed, never hand-edited)
 tools/              validate_data.py, gen_params.py, list_targets.py, airframe_fit.py (stdlib only)
 tests/              unittest suite and validator fixtures
+docs/decisions.md   design decisions (electronics bus, battery)
 ```
 
 ## How to run
