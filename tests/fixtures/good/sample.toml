@@ -1,0 +1,16 @@
+[meta]
+namespace = "demo"
+title = "Minimal valid fixture"
+
+[box.width]
+value = 10.0
+unit = "mm"
+kind = "rule"
+source = "fixture"
+
+[box.enabled]
+value = true
+unit = "bool"
+kind = "estimate"
+source = "fixture"
+note = "Optional note."

@@ -1,0 +1,81 @@
+# Launch Canada payload rules.
+# Every leaf is { value, unit, kind, source, note? }; see README "Data provenance".
+
+[meta]
+namespace = "lc"
+title = "Launch Canada payload rules, R&R 2026 R3 / DTEG R4"
+note = "Launch Canada sets no payload form factor and no payload mass for the main categories; the IREC envelope is the binding one for a shared design."
+
+[[meta.documents]]
+id = "LC R&R 2026 R3"
+title = "Launch Canada Rules & Requirements Guide"
+revision = "2026 R3"
+effective = "2026-05-21"
+url = "https://launchcanada.org/s/Launch-Canada-Rules-and-Requirements-Guide-2026R3.pdf"
+
+[[meta.documents]]
+id = "LC DTEG R4"
+title = "Launch Canada Design, Test & Evaluation Guide"
+revision = "R4"
+effective = "2025-11-06"
+url = "https://launchcanada.org/s/Launch-Canada-DTEG-R4.pdf"
+
+[payload.form_factor_constrained]
+value = false
+unit = "bool"
+kind = "rule"
+source = "LC R&R 2026 R3, 2.3"
+note = "No constraint on payload envelope or weight; no CubeSat bonus."
+
+[payload.required]
+value = false
+unit = "bool"
+kind = "rule"
+source = "LC R&R 2026 R3, 2.3"
+note = "The Payload Challenge is optional; it must ride on a Launch Challenge rocket 'capable of carrying the payload'."
+
+[payload.may_influence_trajectory]
+value = false
+unit = "bool"
+kind = "rule"
+source = "LC R&R 2026 R3, 2.3"
+
+[payload.bonus_points]
+value = "fixed amount, not stated"
+unit = "text"
+kind = "rule"
+source = "LC R&R 2026 R3, 6.1"
+note = "Awarded if entered, flown and confirmed operational post-flight. The amount is not in R3; open question."
+
+[junior.payload_mass_max]
+value = 1.0
+unit = "kg"
+kind = "rule"
+source = "LC R&R 2026 R3, App. C.3 and C.4.5"
+note = "Junior airframes from 89 mm with 3.90 in ID tubes encouraged (C.4.1), so a 100 mm cube does not fit (derived)."
+
+[deployable.speed_max_below_1500ft]
+value = 9.0
+unit = "m/s"
+kind = "rule"
+source = "LC DTEG R4, R9.2.2"
+
+[recovery.landing_speed_max]
+value = 9.0
+unit = "m/s"
+kind = "rule"
+source = "LC DTEG R4, R4.3.1"
+note = "'closer to 20 ft/s' recommended."
+
+[energetics.payload_allowed]
+value = "per DTEG section 5"
+unit = "text"
+kind = "rule"
+source = "LC DTEG R4, R9.5.1"
+
+[altimeter.official_on_payload_allowed]
+value = false
+unit = "bool"
+kind = "rule"
+source = "LC R&R 2026 R3, 3.4"
+note = "The official altimeter must be on the vehicle, not a deployable payload."

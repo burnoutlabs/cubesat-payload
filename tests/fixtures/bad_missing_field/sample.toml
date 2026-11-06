@@ -1,0 +1,8 @@
+[meta]
+namespace = "demo"
+title = "Leaf without a source, and an unknown kind"
+
+[box.width]
+value = 10.0
+unit = "mm"
+kind = "guess"

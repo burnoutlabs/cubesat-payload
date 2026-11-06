@@ -1,0 +1,30 @@
+# Build output (STL/3MF/STEP are generated from scad/; never committed)
+build/
+*.stl
+*.3mf
+*.step
+*.stp
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Personal scratch (never committed)
+working/
+
+# Environment
+.env
+.env.local

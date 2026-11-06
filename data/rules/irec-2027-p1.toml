@@ -1,0 +1,229 @@
+# IREC (formerly Spaceport America Cup) payload rules.
+# Every leaf is { value, unit, kind, source, note? }; see README "Data provenance".
+
+[meta]
+namespace = "irec"
+title = "IREC payload rules, 2027 REV P1"
+note = """
+Rule-year uncertainty: ESRA publishes only the 2027 REV P1 R&R and DTEG (effective
+2026-10-15); no 2026 R&R could be found (ESRA documents page, read 2026-11-05). The
+previous readable edition is 2025 v1.6. A team flying the 2026 season may be bound by
+text that differs from these values, notably the boilerplate limit and the 5U/6U sizes.
+"P1" also implies further 2027 revisions. Re-check before every design review."""
+
+[[meta.documents]]
+id = "IREC R&R 2027 P1"
+title = "IREC Rules & Requirements"
+revision = "2027 REV P1"
+effective = "2026-10-15"
+url = "https://www.esrarocket.org/s/2027-IREC-RR-REV-P1-tcda.pdf"
+
+[[meta.documents]]
+id = "IREC DTEG 2027 P1"
+title = "IREC Design, Test & Evaluation Guide"
+revision = "2027 REV P1"
+effective = "2026-10-15"
+url = "https://www.esrarocket.org/s/2027-IREC-DTEG-REV-P1.pdf"
+
+[[meta.documents]]
+id = "IREC R&R 2025 v1.6"
+title = "IREC Rules & Requirements (previous edition)"
+revision = "2025 v1.6"
+effective = "2025-03-04"
+url = "https://www.soundingrocket.org/uploads/9/0/6/4/9064598/irec_rules_and_requirements_document_v_1.6_.pdf"
+
+# --- Payload Cube Unit (the envelope family named "irec") -------------------
+
+[cube_unit.section]
+value = 100.0
+unit = "mm"
+kind = "rule"
+source = "IREC R&R 2027 P1, Table 3-2"
+note = "Square L x W. Not the CDS: ESRA calls it 'inspired by the CubeSat standard but not identical' (2025 R&R 2.3.5)."
+
+[cube_unit.section_tol]
+value = 2.0
+unit = "mm"
+kind = "rule"
+source = "IREC R&R 2027 P1, Table 3-2"
+note = "Symmetric +/- on L and W. The outer mold line must sit between the min and max prisms."
+
+[cube_unit.height_per_u]
+value = 100.0
+unit = "mm"
+kind = "rule"
+source = "IREC R&R 2027 P1, Table 3-2"
+
+[cube_unit.height_tol]
+value = 2.0
+unit = "mm"
+kind = "rule"
+source = "IREC R&R 2027 P1, Table 3-2"
+
+[cube_unit.units_max]
+value = 6
+unit = "1"
+kind = "rule"
+source = "IREC R&R 2027 P1, Table 3-2"
+note = "1U to 6U, all 1x1xn columns. 2025 v1.6 stopped at 4U; 5U and 6U are new in 2027 (unconfirmed for 2026)."
+
+[cube_unit.no_protrusion_for_bonus]
+value = true
+unit = "bool"
+kind = "rule"
+source = "IREC R&R 2027 P1, R&R-3.4.5.6"
+note = "Bonus requires fitting the 'Payload Cube Unit dispenser envelope' with no protrusion; the dispenser is not otherwise defined."
+
+# --- Mass ----------------------------------------------------------------------
+
+[payload.mass_min]
+value = 4.4
+unit = "lb"
+kind = "rule"
+source = "IREC R&R 2027 P1, R&R-3.1.1 and R&R-3.4.1.1"
+note = "Was 8.8 lb before R&R 2025 v1.5; treat 8.8 lb as obsolete."
+
+[payload.mass_min_kg]
+value = 1.99581
+unit = "kg"
+kind = "derived"
+source = "irec.payload.mass_min x 0.45359237 kg/lb"
+
+[payload.mass_accept_fraction]
+value = 0.95
+unit = "1"
+kind = "rule"
+source = "IREC R&R 2027 P1, R&R-3.4.1.5"
+note = "Accepted without penalty at >= 95 % of the minimum on the official scale; mass may not be added at the event (R&R-6.7.1)."
+
+[payload.boilerplate_max]
+value = 1.15
+unit = "lb"
+kind = "rule"
+source = "IREC R&R 2027 P1, R&R-3.4.5.4"
+note = "Non-functional mass in a functional payload; separately removable and weighed (R&R-3.4.5.5). 2025 v1.6 allowed 3.25 lb; the 2026 value is unconfirmed."
+
+[payload.ballast_form_units]
+value = 3
+unit = "1"
+kind = "rule"
+source = "IREC R&R 2027 P1, R&R-3.4.5.1"
+note = "Pure ballast must be a 3U Payload Cube Unit."
+
+[payload.removable_for_weighing]
+value = true
+unit = "bool"
+kind = "rule"
+source = "IREC R&R 2027 P1, R&R-3.4.3.2"
+
+[payload.two_stage_location]
+value = "sustainer"
+unit = "text"
+kind = "rule"
+source = "IREC R&R 2027 P1, R&R-3.4.3.1; IREC DTEG 2027 P1, D&T-9.5.1"
+
+# --- Materials, energetics, batteries -----------------------------------------
+
+[material.steel_cubesat_frame_allowed]
+value = false
+unit = "bool"
+kind = "rule"
+source = "IREC DTEG 2027 P1, 8.3 footnote 13"
+note = "'the use of steel cubesat frames is specifically prohibited'. DTEG D&T-8.3.1 calls for FRP or light ductile metals such as aluminium."
+
+[material.radioactive_max]
+value = 1.0
+unit = "uCi"
+kind = "rule"
+source = "IREC R&R 2027 P1, R&R-3.4.4.4"
+
+[energetics.payload_allowed]
+value = "recovery_only"
+unit = "text"
+kind = "rule"
+source = "IREC DTEG 2027 P1, 9.3"
+note = "Numbered 'D&T-9.2.1' in the PDF, an apparent numbering slip."
+
+[battery.lipo_allowed]
+value = false
+unit = "bool"
+kind = "rule"
+source = "IREC DTEG 2027 P1, D&T-6.17.1 (applied to payload by D&T-9.2.2)"
+note = "2025 DTEG 6.18.1.1 allowed manufacturer-installed LiPo; 2027 bans it outright."
+
+[battery.allowed_chemistries]
+value = ["LiFePO4", "Li-ion cylindrical metal can", "NiMH metal case", "alkaline metal case", "lithium coin metal case"]
+unit = "text"
+kind = "rule"
+source = "IREC DTEG 2027 P1, D&T-6.17.2"
+
+# --- Workmanship that binds a chassis ------------------------------------------
+
+[pcb.stake_component_mass_over]
+value = 7.0
+unit = "gram"
+kind = "rule"
+source = "IREC DTEG 2027 P1, App. B3.6"
+
+[pcb.connector_may_be_structural]
+value = false
+unit = "bool"
+kind = "rule"
+source = "IREC DTEG 2027 P1, D&T-6.12.3 and App. B3.6"
+note = "Boards on screws or standoffs; a mezzanine connector may not be the sole support."
+
+# --- Deployable payloads and recovery ------------------------------------------
+
+[deployable.landing_speed_max]
+value = 11.0
+unit = "m/s"
+kind = "rule"
+source = "IREC DTEG 2027 P1, D&T-9.1.2; IREC R&R 2027 P1, R&R-3.4.6.1"
+
+[deployable.max_independent_bodies]
+value = 1
+unit = "1"
+kind = "rule"
+source = "IREC DTEG 2027 P1, D&T-9.1.4"
+
+[deployable.uas_allowed]
+value = false
+unit = "bool"
+kind = "rule"
+source = "IREC DTEG 2027 P1, D&T-9.1.3"
+
+[recovery.main_alt_max]
+value = 457.0
+unit = "m"
+kind = "rule"
+source = "IREC DTEG 2027 P1, D&T-6.4.1"
+note = "1,500 ft AGL."
+
+[recovery.drogue_rate]
+value = [20.0, 40.0]
+unit = "m/s"
+kind = "rule"
+source = "IREC DTEG 2027 P1, D&T-6.3.3"
+note = "[min, max]."
+
+[rail_exit_speed_min]
+value = 25.0
+unit = "m/s"
+kind = "rule"
+source = "IREC DTEG 2027 P1, D&T-5.3.1"
+note = "Was 30 m/s in 2025 DTEG 10.2.1."
+
+# --- Scoring -------------------------------------------------------------------
+
+[score.cube_bonus]
+value = 50
+unit = "pts"
+kind = "rule"
+source = "IREC R&R 2027 P1, R&R-6.7.1 'Payload Form-Factor Bonus'"
+
+[score.payload_violation]
+value = -100
+unit = "pts"
+kind = "rule"
+source = "IREC R&R 2027 P1, R&R-6.7.1 'Payload Requirement Penalty'"
+note = "Per violated payload requirement."

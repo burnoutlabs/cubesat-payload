@@ -1,0 +1,110 @@
+# Cal Poly CubeSat Design Specification, mechanical items worth mirroring.
+# A rocket payload has no dispenser, so none of this binds; it is the "cds"
+# envelope family and the reference for COTS interchangeability.
+# Every leaf is { value, unit, kind, source, note? }; see README "Data provenance".
+
+[meta]
+namespace = "cds"
+title = "CubeSat Design Specification Rev 14.1 (mechanical subset)"
+note = "Cal Poly's info page still lists 14.1 as current (cubesat.org/cubesatinfo, read 2026-11-05). Only the 1x1xn sizes are encoded; the 6U (2x3) is a different cross-section."
+
+[[meta.documents]]
+id = "CDS 14.1"
+title = "CubeSat Design Specification"
+revision = "Rev 14.1 (CP-CDS-R14.1)"
+effective = "2022-02"
+url = "https://www.nasa.gov/wp-content/uploads/2018/01/cubesatdesignspecificationrev14_12022-02-09.pdf"
+
+[body.section]
+value = 100.0
+unit = "mm"
+kind = "rule"
+source = "CDS 14.1, App. B drawings CDS-14-001 to -003"
+
+[body.section_tol]
+value = 0.1
+unit = "mm"
+kind = "rule"
+source = "CDS 14.1, App. B title-block tolerance"
+
+[rail.length]
+value = [113.5, 227.0, 340.5]
+unit = "mm"
+kind = "rule"
+source = "CDS 14.1, App. B drawings (1U, 2U, 3U)"
+note = "Overall Z including rail standoffs. Index = units - 1."
+
+[rail.length_tol]
+value = 0.1
+unit = "mm"
+kind = "estimate"
+source = "CDS 14.1, App. B title-block tolerance (assumed to apply to length)"
+note = "Not read from the per-size drawing callouts; verify against CDS-14-001 to -003 before relying on it."
+
+[rail.width_min]
+value = 8.5
+unit = "mm"
+kind = "rule"
+source = "CDS 14.1, 2.2.5"
+
+[rail.end_pad_min]
+value = 6.5
+unit = "mm"
+kind = "rule"
+source = "CDS 14.1, 2.2.8"
+note = "Square contact pad, 6.5 x 6.5 mm minimum."
+
+[rail.standoff]
+value = [0.5, 7.0]
+unit = "mm"
+kind = "rule"
+source = "CDS 14.1, App. B"
+note = "[min, max] reference; 0.1 mm absolute minimum."
+
+[rail.edge_radius_min]
+value = 1.0
+unit = "mm"
+kind = "rule"
+source = "CDS 14.1, 2.2.7"
+note = "'should'."
+
+[rail.roughness_max]
+value = 1.6
+unit = "um"
+kind = "rule"
+source = "CDS 14.1, 2.2.6"
+note = "Ra; 'should'."
+
+[rail.contact_fraction_min]
+value = 0.75
+unit = "1"
+kind = "rule"
+source = "CDS 14.1, 2.2.9"
+
+[protrusion_max]
+value = 6.5
+unit = "mm"
+kind = "rule"
+source = "CDS 14.1, 2.2.3"
+note = "Beyond the rail plane. Not part of the encoded envelope, which is the rail-defined body."
+
+[mass_max]
+value = [2.0, 4.0, 6.0]
+unit = "kg"
+kind = "rule"
+source = "CDS 14.1, Table 1"
+note = "1U, 2U, 3U; index = units - 1. Also 1.5U 3.00, 6U 12.00, 12U 24.00 kg."
+
+[cg_offset_max]
+value = [[20.0, 20.0, 20.0], [20.0, 20.0, 45.0], [20.0, 20.0, 70.0]]
+unit = "mm"
+kind = "rule"
+source = "CDS 14.1, Table 2"
+note = "[X, Y, Z] from the geometric centre for 1U, 2U, 3U. 6U is [45, 20, 70]."
+
+[material]
+value = ["Al 7075", "Al 6061", "Al 6082", "Al 5005", "Al 5052"]
+unit = "text"
+kind = "rule"
+source = "CDS 14.1, 2.2.12.1"
+note = "'should' be aluminium. Hard anodise on rail contact surfaces (2.2.13) is commonly dropped for rocketry."

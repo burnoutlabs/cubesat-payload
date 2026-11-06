@@ -1,0 +1,15 @@
+[meta]
+namespace = "demo"
+title = "Two TOML paths that flatten to the same OpenSCAD name"
+
+[box.inner_width]
+value = 10.0
+unit = "mm"
+kind = "rule"
+source = "fixture"
+
+[box_inner.width]
+value = 12.0
+unit = "mm"
+kind = "rule"
+source = "fixture"

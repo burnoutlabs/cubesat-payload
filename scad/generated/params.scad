@@ -1,0 +1,83 @@
+// GENERATED — do not edit.
+// Source: data/**/*.toml, written by tools/gen_params.py (`just gen`).
+// Edit the data, regenerate, and commit both. Units and provenance are in
+// the trailing comment on each line; full notes are in the TOML.
+cds_body_section = 100.0; // mm, rule: CDS 14.1, App. B drawings CDS-14-001 to -003
+cds_body_section_tol = 0.1; // mm, rule: CDS 14.1, App. B title-block tolerance
+cds_cg_offset_max = [[20.0, 20.0, 20.0], [20.0, 20.0, 45.0], [20.0, 20.0, 70.0]]; // mm, rule: CDS 14.1, Table 2
+cds_mass_max = [2.0, 4.0, 6.0]; // kg, rule: CDS 14.1, Table 1
+cds_material = ["Al 7075", "Al 6061", "Al 6082", "Al 5005", "Al 5052"]; // text, rule: CDS 14.1, 2.2.12.1
+cds_protrusion_max = 6.5; // mm, rule: CDS 14.1, 2.2.3
+cds_rail_contact_fraction_min = 0.75; // 1, rule: CDS 14.1, 2.2.9
+cds_rail_edge_radius_min = 1.0; // mm, rule: CDS 14.1, 2.2.7
+cds_rail_end_pad_min = 6.5; // mm, rule: CDS 14.1, 2.2.8
+cds_rail_length = [113.5, 227.0, 340.5]; // mm, rule: CDS 14.1, App. B drawings (1U, 2U, 3U)
+cds_rail_length_tol = 0.1; // mm, estimate: CDS 14.1, App. B title-block tolerance (assumed to apply to length)
+cds_rail_roughness_max = 1.6; // um, rule: CDS 14.1, 2.2.6
+cds_rail_standoff = [0.5, 7.0]; // mm, rule: CDS 14.1, App. B
+cds_rail_width_min = 8.5; // mm, rule: CDS 14.1, 2.2.5
+envelope_cds_units_max = 3; // 1, rule: CDS 14.1, App. B (1U, 2U, 3U are 1x1xn; 6U is 2x3)
+envelope_default_family = "irec"; // text, recommendation: IREC R&R 2027 P1, Table 3-2 governs competition builds; CDS kept as a selectable profile
+envelope_families = ["irec", "cds"]; // text, recommendation: Project decision: two envelope families, one chassis code path
+envelope_min_airframe_id_irec_max = 144.25; // mm, derived: sqrt(2) x (irec.cube_unit.section + irec.cube_unit.section_tol)
+envelope_min_airframe_id_irec_nominal = 141.42; // mm, derived: sqrt(2) x irec.cube_unit.section
+irec_battery_allowed_chemistries = ["LiFePO4", "Li-ion cylindrical metal can", "NiMH metal case", "alkaline metal case", "lithium coin metal case"]; // text, rule: IREC DTEG 2027 P1, D&T-6.17.2
+irec_battery_lipo_allowed = false; // bool, rule: IREC DTEG 2027 P1, D&T-6.17.1 (applied to payload by D&T-9.2.2)
+irec_cube_unit_height_per_u = 100.0; // mm, rule: IREC R&R 2027 P1, Table 3-2
+irec_cube_unit_height_tol = 2.0; // mm, rule: IREC R&R 2027 P1, Table 3-2
+irec_cube_unit_no_protrusion_for_bonus = true; // bool, rule: IREC R&R 2027 P1, R&R-3.4.5.6
+irec_cube_unit_section = 100.0; // mm, rule: IREC R&R 2027 P1, Table 3-2
+irec_cube_unit_section_tol = 2.0; // mm, rule: IREC R&R 2027 P1, Table 3-2
+irec_cube_unit_units_max = 6; // 1, rule: IREC R&R 2027 P1, Table 3-2
+irec_deployable_landing_speed_max = 11.0; // m/s, rule: IREC DTEG 2027 P1, D&T-9.1.2; IREC R&R 2027 P1, R&R-3.4.6.1
+irec_deployable_max_independent_bodies = 1; // 1, rule: IREC DTEG 2027 P1, D&T-9.1.4
+irec_deployable_uas_allowed = false; // bool, rule: IREC DTEG 2027 P1, D&T-9.1.3
+irec_energetics_payload_allowed = "recovery_only"; // text, rule: IREC DTEG 2027 P1, 9.3
+irec_material_radioactive_max = 1.0; // uCi, rule: IREC R&R 2027 P1, R&R-3.4.4.4
+irec_material_steel_cubesat_frame_allowed = false; // bool, rule: IREC DTEG 2027 P1, 8.3 footnote 13
+irec_payload_ballast_form_units = 3; // 1, rule: IREC R&R 2027 P1, R&R-3.4.5.1
+irec_payload_boilerplate_max = 1.15; // lb, rule: IREC R&R 2027 P1, R&R-3.4.5.4
+irec_payload_mass_accept_fraction = 0.95; // 1, rule: IREC R&R 2027 P1, R&R-3.4.1.5
+irec_payload_mass_min = 4.4; // lb, rule: IREC R&R 2027 P1, R&R-3.1.1 and R&R-3.4.1.1
+irec_payload_mass_min_kg = 1.99581; // kg, derived: irec.payload.mass_min x 0.45359237 kg/lb
+irec_payload_removable_for_weighing = true; // bool, rule: IREC R&R 2027 P1, R&R-3.4.3.2
+irec_payload_two_stage_location = "sustainer"; // text, rule: IREC R&R 2027 P1, R&R-3.4.3.1; IREC DTEG 2027 P1, D&T-9.5.1
+irec_pcb_connector_may_be_structural = false; // bool, rule: IREC DTEG 2027 P1, D&T-6.12.3 and App. B3.6
+irec_pcb_stake_component_mass_over = 7.0; // gram, rule: IREC DTEG 2027 P1, App. B3.6
+irec_rail_exit_speed_min = 25.0; // m/s, rule: IREC DTEG 2027 P1, D&T-5.3.1
+irec_recovery_drogue_rate = [20.0, 40.0]; // m/s, rule: IREC DTEG 2027 P1, D&T-6.3.3
+irec_recovery_main_alt_max = 457.0; // m, rule: IREC DTEG 2027 P1, D&T-6.4.1
+irec_score_cube_bonus = 50; // pts, rule: IREC R&R 2027 P1, R&R-6.7.1 'Payload Form-Factor Bonus'
+irec_score_payload_violation = -100; // pts, rule: IREC R&R 2027 P1, R&R-6.7.1 'Payload Requirement Penalty'
+lc_altimeter_official_on_payload_allowed = false; // bool, rule: LC R&R 2026 R3, 3.4
+lc_deployable_speed_max_below_1500ft = 9.0; // m/s, rule: LC DTEG R4, R9.2.2
+lc_energetics_payload_allowed = "per DTEG section 5"; // text, rule: LC DTEG R4, R9.5.1
+lc_junior_payload_mass_max = 1.0; // kg, rule: LC R&R 2026 R3, App. C.3 and C.4.5
+lc_payload_bonus_points = "fixed amount, not stated"; // text, rule: LC R&R 2026 R3, 6.1
+lc_payload_form_factor_constrained = false; // bool, rule: LC R&R 2026 R3, 2.3
+lc_payload_may_influence_trajectory = false; // bool, rule: LC R&R 2026 R3, 2.3
+lc_payload_required = false; // bool, rule: LC R&R 2026 R3, 2.3
+lc_recovery_landing_speed_max = 9.0; // m/s, rule: LC DTEG R4, R4.3.1
+librecube_board_corner_radius = 1.0; // mm, rule: LibreCube board spec
+librecube_board_hole_diameter = 3.2; // mm, rule: LibreCube board spec, board_dimensions.png
+librecube_board_holes = [[5.0, 5.0], [85.0, 5.0], [9.0, 91.0], [82.5, 91.0]]; // mm, rule: LibreCube board spec, board_dimensions.png
+librecube_board_size = [90.0, 96.0]; // mm, rule: LibreCube board spec, board_dimensions.png
+librecube_board_thickness = 1.6; // mm, rule: LibreCube board spec
+librecube_component_height_bottom = 4.5; // mm, rule: LibreCube board spec
+librecube_component_height_top = 8.5; // mm, rule: LibreCube board spec
+librecube_stack_pitch = 16.0; // mm, rule: LibreCube board spec
+load_design_axial_limit = 50.0; // g_n, recommendation: load.measured.main_deploy_peak_high_rate (45 g) rounded up for margin
+load_design_factor_of_safety_ultimate = 1.5; // 1, recommendation: Common aerospace practice for limit-to-ultimate
+load_design_landing = 100.0; // g_n, estimate: a = v^2 / (2 d) with v = 9 to 11 m/s (LC DTEG R4 R4.3.1; IREC DTEG 2027 P1 D&T-6.4.3) and d = 50 mm
+load_design_lateral_limit = 10.0; // g_n, estimate: No lateral data extracted; engineering judgement
+load_measured_boost_axial_peak = [10.9, 12.8]; // g_n, measured: burnoutlabs/post-flight-analysis data/{2022-06-24_prometheus_sac22,2024-06-21_hyperion1_sac24,2025-08-21_hyperion2_lc25}/interim/telemega_std.csv (a_up_mps2, state=boost); 2025-08-21_hyperion2_lc25/interim/blueraven_hr_std.csv
+load_measured_main_deploy_peak_high_rate = 45.0; // g_n, measured: burnoutlabs/post-flight-analysis data/2025-08-21_hyperion2_lc25/interim/blueraven_hr_std.csv (|accel_xyz_g|)
+load_measured_main_deploy_peak_telemega = [20.2, 33.7]; // g_n, measured: burnoutlabs/post-flight-analysis data/*/interim/telemega_std.csv (|a_up_mps2|, state=main)
+load_published_boost_axial_sim = [15.1, 23.7]; // g_n, estimate: IREC/SAC team technical reports: 2018 teams 40, 21, 79; 2024 team 71 (soundingrocket.org and team-hosted PDFs)
+pc104_board_hole_diameter = 3.18; // mm, rule: PC/104 v2.5, App. A Fig. 3
+pc104_board_holes = [[5.08, 5.08], [5.08, 85.09], [90.81, 8.89], [90.81, 82.55]]; // mm, rule: PC/104 v2.5, App. A Fig. 3
+pc104_board_size = [95.89, 90.17]; // mm, rule: PC/104 v2.5, App. A Fig. 3
+pc104_board_thickness = 1.57; // mm, rule: PC/104 v2.5, App. A Fig. 3
+pc104_component_height_bottom = 2.54; // mm, rule: PC/104 v2.5, App. A Fig. 3
+pc104_component_height_top = 11.05; // mm, rule: PC/104 v2.5, App. A Fig. 3
+pc104_stack_pitch = 15.24; // mm, rule: PC/104 v2.5, Fig. 1

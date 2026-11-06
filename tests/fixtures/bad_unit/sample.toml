@@ -1,0 +1,9 @@
+[meta]
+namespace = "demo"
+title = "Unit not in the allowed set"
+
+[box.width]
+value = 10.0
+unit = "furlong"
+kind = "rule"
+source = "fixture"

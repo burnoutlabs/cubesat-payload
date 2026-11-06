@@ -1,0 +1,66 @@
+# PC/104 board outline: the footprint CubeSat board stacks borrow.
+# Every leaf is { value, unit, kind, source, note? }; see README "Data provenance".
+
+[meta]
+namespace = "pc104"
+title = "PC/104 board outline (v2.5)"
+note = """
+v2.6 (2008) is current and was not obtained; values are from v2.5 via a third-party
+mirror. The PC/104 bus itself is ISA (J1 64 + J2 40 pins) and is not encoded. The
+CubeSat Kit Bus (two 2x26 headers, H1/H2) uses the same outline in a different
+connector position; its pinout is unverified against a primary Pumpkin table and is
+deliberately not encoded."""
+
+[[meta.documents]]
+id = "PC/104 v2.5"
+title = "PC/104 Specification"
+revision = "v2.5"
+effective = "2003-11"
+url = "https://www.rogerarrick.com/pc104faq/PC104SpecV2_5.pdf"
+
+[board.size]
+value = [95.89, 90.17]
+unit = "mm"
+kind = "rule"
+source = "PC/104 v2.5, App. A Fig. 3"
+note = "3.775 x 3.550 in. First axis along the J1/J2 edge."
+
+[board.thickness]
+value = 1.57
+unit = "mm"
+kind = "rule"
+source = "PC/104 v2.5, App. A Fig. 3"
+note = "0.062 in."
+
+[board.holes]
+value = [[5.08, 5.08], [5.08, 85.09], [90.81, 8.89], [90.81, 82.55]]
+unit = "mm"
+kind = "rule"
+source = "PC/104 v2.5, App. A Fig. 3"
+note = "Measured from the J1/J2 corner; first axis along the 95.89 mm edge."
+
+[board.hole_diameter]
+value = 3.18
+unit = "mm"
+kind = "rule"
+source = "PC/104 v2.5, App. A Fig. 3"
+note = "0.125 in, on 6.35 mm (0.250 in) pads."
+
+[component_height.top]
+value = 11.05
+unit = "mm"
+kind = "rule"
+source = "PC/104 v2.5, App. A Fig. 3"
+
+[component_height.bottom]
+value = 2.54
+unit = "mm"
+kind = "rule"
+source = "PC/104 v2.5, App. A Fig. 3"
+
+[stack_pitch]
+value = 15.24
+unit = "mm"
+kind = "rule"
+source = "PC/104 v2.5, Fig. 1"
+note = "0.6 in spacers. The CubeSat Kit Bus uses 15 or 25 mm (Pumpkin bus page)."

@@ -1,0 +1,15 @@
+[meta]
+namespace = "demo"
+title = "The same key defined twice"
+
+[box.width]
+value = 10.0
+unit = "mm"
+kind = "rule"
+source = "fixture"
+
+[box.width]
+value = 12.0
+unit = "mm"
+kind = "rule"
+source = "fixture"

@@ -1,0 +1,83 @@
+# Loads a payload chassis should be designed for.
+# No competition document gives a numeric payload design load; IREC R&R-3.4.3.4 only
+# requires the payload to "withstand applicable launch and recovery loads without
+# shifting". The design values below are recommendations and estimates, not rules.
+# Every leaf is { value, unit, kind, source, note? }; see README "Data provenance".
+
+[meta]
+namespace = "load"
+title = "Payload design loads"
+note = """
+Measured values are peaks of logged acceleration in burnoutlabs/post-flight-analysis,
+grouped by the flight computer's own flight state. Which airframe section each device
+sat in is not recorded, so payload-bay loads may differ. The TeleMega t_flight_s
+column in that repo is known to be wrong (burnoutlabs/post-flight-analysis#7); the
+accelerations and altitudes used here are not affected."""
+
+[[meta.documents]]
+id = "pfa"
+title = "burnoutlabs/post-flight-analysis"
+revision = "default branch, data/*/interim/*_std.csv"
+effective = "read 2026-11-05"
+url = "https://github.com/burnoutlabs/post-flight-analysis"
+
+# --- Measured ------------------------------------------------------------------
+
+[measured.boost_axial_peak]
+value = [10.9, 12.8]
+unit = "g_n"
+kind = "measured"
+source = "burnoutlabs/post-flight-analysis data/{2022-06-24_prometheus_sac22,2024-06-21_hyperion1_sac24,2025-08-21_hyperion2_lc25}/interim/telemega_std.csv (a_up_mps2, state=boost); 2025-08-21_hyperion2_lc25/interim/blueraven_hr_std.csv"
+note = "[min, max] over three flights: TeleMega 11.1, 10.9, 11.4 g; Blue Raven 500 Hz 12.8 g |a| (includes 1 g)."
+
+[measured.main_deploy_peak_telemega]
+value = [20.2, 33.7]
+unit = "g_n"
+kind = "measured"
+source = "burnoutlabs/post-flight-analysis data/*/interim/telemega_std.csv (|a_up_mps2|, state=main)"
+note = "[min, max] of per-flight peaks: SAC22 20.2, SAC24 33.7, LC25 20.9 g. ~11 Hz logging under-reads the shock."
+
+[measured.main_deploy_peak_high_rate]
+value = 45.0
+unit = "g_n"
+kind = "measured"
+source = "burnoutlabs/post-flight-analysis data/2025-08-21_hyperion2_lc25/interim/blueraven_hr_std.csv (|accel_xyz_g|)"
+note = "500 Hz, vector magnitude including 1 g; axial-only peak magnitude 26.4 g. The 11 Hz TeleMega on the same flight shows 20.9 g."
+
+# --- Published predictions (simulation) -----------------------------------------
+
+[published.boost_axial_sim]
+value = [15.1, 23.7]
+unit = "g_n"
+kind = "estimate"
+source = "IREC/SAC team technical reports: 2018 teams 40, 21, 79; 2024 team 71 (soundingrocket.org and team-hosted PDFs)"
+note = "Simulation predictions, not measurements. 23.7 g is derived from 762 ft/s^2."
+
+# --- Recommended design set -----------------------------------------------------
+
+[design.axial_limit]
+value = 50.0
+unit = "g_n"
+kind = "recommendation"
+source = "load.measured.main_deploy_peak_high_rate (45 g) rounded up for margin"
+note = "Either direction. Main-deploy shock envelopes boost; Launch Canada DTEG R4 4.3 says hard main openings carry the highest forces."
+
+[design.lateral_limit]
+value = 10.0
+unit = "g_n"
+kind = "estimate"
+source = "No lateral data extracted; engineering judgement"
+note = "Open until a payload-bay high-rate logger flies."
+
+[design.landing]
+value = 100.0
+unit = "g_n"
+kind = "estimate"
+source = "a = v^2 / (2 d) with v = 9 to 11 m/s (LC DTEG R4 R4.3.1; IREC DTEG 2027 P1 D&T-6.4.3) and d = 50 mm"
+note = "Gives 83 to 123 g; strongly dependent on d. Landing-facing end only, if the payload section lands hard."
+
+[design.factor_of_safety_ultimate]
+value = 1.5
+unit = "1"
+kind = "recommendation"
+source = "Common aerospace practice for limit-to-ultimate"

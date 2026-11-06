@@ -1,0 +1,42 @@
+# Envelope-family selection. The dimensions themselves live in the rule and
+# standard files (irec.cube_unit.*, cds.body.*, cds.rail.*); this file only
+# picks between them and records the values the envelope code derives.
+# Every leaf is { value, unit, kind, source, note? }; see README "Data provenance".
+
+[meta]
+namespace = "envelope"
+title = "Envelope families"
+note = "Families: 'irec' (ESRA Payload Cube Unit, 100 n +/- 2 mm) and 'cds' (CubeSat Design Spec rails, 113.5 n). They conflict on length: a CDS 3U (340.5 mm) overruns the IREC 3U maximum (302 mm)."
+
+[default_family]
+value = "irec"
+unit = "text"
+kind = "recommendation"
+source = "IREC R&R 2027 P1, Table 3-2 governs competition builds; CDS kept as a selectable profile"
+
+[families]
+value = ["irec", "cds"]
+unit = "text"
+kind = "recommendation"
+source = "Project decision: two envelope families, one chassis code path"
+
+[cds_units_max]
+value = 3
+unit = "1"
+kind = "rule"
+source = "CDS 14.1, App. B (1U, 2U, 3U are 1x1xn; 6U is 2x3)"
+note = "Larger CDS sizes change the cross-section and are out of scope for this family."
+
+[min_airframe_id_irec_nominal]
+value = 141.42
+unit = "mm"
+kind = "derived"
+source = "sqrt(2) x irec.cube_unit.section"
+note = "Diagonal of the nominal 100 mm square. Pumpkin's control drawing gives the same 141.42 +/- 0.14 (cubesatkit.com/docs/cubesatcontroldrawing.pdf, rev B2)."
+
+[min_airframe_id_irec_max]
+value = 144.25
+unit = "mm"
+kind = "derived"
+source = "sqrt(2) x (irec.cube_unit.section + irec.cube_unit.section_tol)"
+note = "No radial clearance included."
