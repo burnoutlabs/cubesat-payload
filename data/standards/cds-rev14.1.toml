@@ -19,7 +19,7 @@ url = "https://www.nasa.gov/wp-content/uploads/2018/01/cubesatdesignspecificatio
 value = 100.0
 unit = "mm"
 kind = "rule"
-source = "CDS 14.1, App. B drawings CDS-14-001 to -003"
+source = "CDS 14.1, App. B drawings CDS-14-001 (1U), -003 (2U), -004 (3U)"
 
 [body.section_tol]
 value = 0.1
@@ -37,9 +37,9 @@ note = "Overall Z including rail standoffs. Index = units - 1."
 [rail.length_tol]
 value = 0.1
 unit = "mm"
-kind = "estimate"
-source = "CDS 14.1, App. B title-block tolerance (assumed to apply to length)"
-note = "Not read from the per-size drawing callouts; verify against CDS-14-001 to -003 before relying on it."
+kind = "rule"
+source = "CDS 14.1, App. B title-block tolerance, drawings CDS-14-001/-003/-004"
+note = "The per-size drawings give no separate tolerance on rail length, so the title-block +/-0.1 mm applies."
 
 [rail.width_min]
 value = 8.5

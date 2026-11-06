@@ -12,7 +12,10 @@ Measured values are peaks of logged acceleration in burnoutlabs/post-flight-anal
 grouped by the flight computer's own flight state. Which airframe section each device
 sat in is not recorded, so payload-bay loads may differ. The TeleMega t_flight_s
 column in that repo is known to be wrong (burnoutlabs/post-flight-analysis#7); the
-accelerations and altitudes used here are not affected."""
+accelerations and altitudes used here are not affected.
+Do not align the Blue Raven and TeleMega logs by t_epoch_s: the TeleMega flight time is wrong
+(burnoutlabs/post-flight-analysis#7), which moves the Blue Raven main-deploy peak onto drogue.
+"""
 
 [[meta.documents]]
 id = "pfa"
@@ -63,11 +66,11 @@ source = "load.measured.main_deploy_peak_high_rate (45 g) rounded up for margin"
 note = "Either direction. Main-deploy shock envelopes boost; Launch Canada DTEG R4 4.3 says hard main openings carry the highest forces."
 
 [design.lateral_limit]
-value = 10.0
+value = 45.0
 unit = "g_n"
-kind = "estimate"
-source = "No lateral data extracted; engineering judgement"
-note = "Open until a payload-bay high-rate logger flies."
+kind = "recommendation"
+source = "burnoutlabs/post-flight-analysis data/2025-08-21_hyperion2_lc25/interim/blueraven_hr_std.csv"
+note = "Lateral resultant sqrt(accel_x^2 + accel_z^2) peaked at 43.5 g at main deploy (51.06 s on the Blue Raven clock; accel_y is axial). One flight, avionics-bay mounting; open until a payload-bay high-rate logger flies."
 
 [design.landing]
 value = 100.0

@@ -178,7 +178,7 @@ note = "Boards on screws or standoffs; a mezzanine connector may not be the sole
 value = 11.0
 unit = "m/s"
 kind = "rule"
-source = "IREC DTEG 2027 P1, D&T-9.1.2; IREC R&R 2027 P1, R&R-3.4.6.1"
+source = "IREC DTEG 2027 P1, D&T-9.1.2"
 
 [deployable.max_independent_bodies]
 value = 1

@@ -2,7 +2,7 @@
 // Source: data/**/*.toml, written by tools/gen_params.py (`just gen`).
 // Edit the data, regenerate, and commit both. Units and provenance are in
 // the trailing comment on each line; full notes are in the TOML.
-cds_body_section = 100.0; // mm, rule: CDS 14.1, App. B drawings CDS-14-001 to -003
+cds_body_section = 100.0; // mm, rule: CDS 14.1, App. B drawings CDS-14-001 (1U), -003 (2U), -004 (3U)
 cds_body_section_tol = 0.1; // mm, rule: CDS 14.1, App. B title-block tolerance
 cds_cg_offset_max = [[20.0, 20.0, 20.0], [20.0, 20.0, 45.0], [20.0, 20.0, 70.0]]; // mm, rule: CDS 14.1, Table 2
 cds_mass_max = [2.0, 4.0, 6.0]; // kg, rule: CDS 14.1, Table 1
@@ -12,7 +12,7 @@ cds_rail_contact_fraction_min = 0.75; // 1, rule: CDS 14.1, 2.2.9
 cds_rail_edge_radius_min = 1.0; // mm, rule: CDS 14.1, 2.2.7
 cds_rail_end_pad_min = 6.5; // mm, rule: CDS 14.1, 2.2.8
 cds_rail_length = [113.5, 227.0, 340.5]; // mm, rule: CDS 14.1, App. B drawings (1U, 2U, 3U)
-cds_rail_length_tol = 0.1; // mm, estimate: CDS 14.1, App. B title-block tolerance (assumed to apply to length)
+cds_rail_length_tol = 0.1; // mm, rule: CDS 14.1, App. B title-block tolerance, drawings CDS-14-001/-003/-004
 cds_rail_roughness_max = 1.6; // um, rule: CDS 14.1, 2.2.6
 cds_rail_standoff = [0.5, 7.0]; // mm, rule: CDS 14.1, App. B
 cds_rail_width_min = 8.5; // mm, rule: CDS 14.1, 2.2.5
@@ -29,7 +29,7 @@ irec_cube_unit_no_protrusion_for_bonus = true; // bool, rule: IREC R&R 2027 P1, 
 irec_cube_unit_section = 100.0; // mm, rule: IREC R&R 2027 P1, Table 3-2
 irec_cube_unit_section_tol = 2.0; // mm, rule: IREC R&R 2027 P1, Table 3-2
 irec_cube_unit_units_max = 6; // 1, rule: IREC R&R 2027 P1, Table 3-2
-irec_deployable_landing_speed_max = 11.0; // m/s, rule: IREC DTEG 2027 P1, D&T-9.1.2; IREC R&R 2027 P1, R&R-3.4.6.1
+irec_deployable_landing_speed_max = 11.0; // m/s, rule: IREC DTEG 2027 P1, D&T-9.1.2
 irec_deployable_max_independent_bodies = 1; // 1, rule: IREC DTEG 2027 P1, D&T-9.1.4
 irec_deployable_uas_allowed = false; // bool, rule: IREC DTEG 2027 P1, D&T-9.1.3
 irec_energetics_payload_allowed = "recovery_only"; // text, rule: IREC DTEG 2027 P1, 9.3
@@ -69,7 +69,7 @@ librecube_stack_pitch = 16.0; // mm, rule: LibreCube board spec
 load_design_axial_limit = 50.0; // g_n, recommendation: load.measured.main_deploy_peak_high_rate (45 g) rounded up for margin
 load_design_factor_of_safety_ultimate = 1.5; // 1, recommendation: Common aerospace practice for limit-to-ultimate
 load_design_landing = 100.0; // g_n, estimate: a = v^2 / (2 d) with v = 9 to 11 m/s (LC DTEG R4 R4.3.1; IREC DTEG 2027 P1 D&T-6.4.3) and d = 50 mm
-load_design_lateral_limit = 10.0; // g_n, estimate: No lateral data extracted; engineering judgement
+load_design_lateral_limit = 45.0; // g_n, recommendation: burnoutlabs/post-flight-analysis data/2025-08-21_hyperion2_lc25/interim/blueraven_hr_std.csv
 load_measured_boost_axial_peak = [10.9, 12.8]; // g_n, measured: burnoutlabs/post-flight-analysis data/{2022-06-24_prometheus_sac22,2024-06-21_hyperion1_sac24,2025-08-21_hyperion2_lc25}/interim/telemega_std.csv (a_up_mps2, state=boost); 2025-08-21_hyperion2_lc25/interim/blueraven_hr_std.csv
 load_measured_main_deploy_peak_high_rate = 45.0; // g_n, measured: burnoutlabs/post-flight-analysis data/2025-08-21_hyperion2_lc25/interim/blueraven_hr_std.csv (|accel_xyz_g|)
 load_measured_main_deploy_peak_telemega = [20.2, 33.7]; // g_n, measured: burnoutlabs/post-flight-analysis data/*/interim/telemega_std.csv (|a_up_mps2|, state=main)
