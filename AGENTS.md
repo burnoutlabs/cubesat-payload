@@ -37,7 +37,9 @@ just build        # render build/*.stl (fails without openscad)
 just clean        # remove build/ and caches
 ```
 
-Run `just check && just test` before every commit.
+Run `just check && just test` before every commit. CI runs the same two
+recipes with OpenSCAD installed and `REQUIRE_OPENSCAD=1`, which turns the
+OpenSCAD skip into a failure.
 
 ## Conventions
 

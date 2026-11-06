@@ -1,0 +1,47 @@
+# Runs the local gate (`just check`, `just test`) with OpenSCAD installed.
+# Actions are pinned to full commit SHAs; the comment names the release.
+
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    env:
+      # scad-check and the SCAD/Python parity test fail instead of skipping
+      # when openscad is missing.
+      REQUIRE_OPENSCAD: "1"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Install just
+        uses: extractions/setup-just@dd310ad5a97d8e7b41793f8ef055398d51ad4de6 # v2.0.0
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+
+      # Ubuntu 24.04's openscad package; the runner image is pinned above so
+      # the package version only moves with that release. `just setup` prints
+      # the version, so each run records what it used.
+      - name: Install OpenSCAD
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends openscad
+
+      - name: Setup
+        run: just setup
+
+      - name: Check
+        run: just check
+
+      - name: Test
+        run: just test

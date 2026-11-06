@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import contextlib
 import io
+import os
 import re
 import shutil
 import subprocess
@@ -157,9 +158,20 @@ class TestEnvelopeMath(unittest.TestCase):
         self.assertNotIn(("cds", 4), targets)
 
 
-@unittest.skipUnless(shutil.which("openscad"), "openscad not installed: SCAD/Python parity not checked")
+# REQUIRE_OPENSCAD=1 (set in CI) turns the skip into a failure.
+REQUIRE_OPENSCAD = os.environ.get("REQUIRE_OPENSCAD") == "1"
+
+
+@unittest.skipUnless(
+    shutil.which("openscad") or REQUIRE_OPENSCAD,
+    "openscad not installed: SCAD/Python parity not checked",
+)
 class TestScadParity(unittest.TestCase):
     """The envelope math exists in Python and OpenSCAD; check they agree."""
+
+    def setUp(self):
+        if not shutil.which("openscad"):
+            self.fail("REQUIRE_OPENSCAD=1 but openscad is not installed")
 
     ECHO = re.compile(r"size_mm=\[([^\]]+)\] min_airframe_id_mm=([0-9.e+-]+)")
 
