@@ -36,9 +36,13 @@ gen-check:
 lint:
     @{{ python }} -c 'import ast, pathlib; fs = sorted(pathlib.Path(".").glob("t*/**/*.py")); [ast.parse(f.read_text(encoding="utf-8"), str(f)) for f in fs]; print(f"OK: {len(fs)} Python files parse")'
 
-# Evaluate every scad/*.scad with openscad; prints SKIPPED if not installed
+# Evaluate every scad/*.scad with openscad; prints SKIPPED if not installed,
+# or fails if REQUIRE_OPENSCAD=1 (as CI sets it)
 scad-check:
     @if ! command -v openscad >/dev/null 2>&1; then \
+        if [ "${REQUIRE_OPENSCAD:-}" = 1 ]; then \
+            echo "FAIL: openscad not installed and REQUIRE_OPENSCAD=1 (scad-check did not run)" >&2; exit 1; \
+        fi; \
         echo "SKIPPED: openscad not installed (scad-check did not run)"; \
     else \
         tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT; \

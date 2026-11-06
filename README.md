@@ -80,7 +80,9 @@ just gen      # after editing data/: regenerate params.scad, then commit both
 
 Without OpenSCAD, `just check` prints `SKIPPED: openscad not installed` for
 its OpenSCAD step rather than claiming it passed, and the SCAD/Python parity
-test reports itself as skipped.
+test reports itself as skipped. Set `REQUIRE_OPENSCAD=1` to make both fail
+instead; CI (`.github/workflows/check.yml`) installs OpenSCAD and sets it, so
+the OpenSCAD checks cannot be skipped there.
 
 ## Data provenance
 
