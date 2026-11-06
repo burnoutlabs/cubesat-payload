@@ -112,6 +112,68 @@ class TestGenerator(unittest.TestCase):
         self.assertFalse(self.out.exists())
 
 
+class TestAirframeFit(unittest.TestCase):
+    """Envelope cross-section diagonal vs each airframe's [limit] diameters."""
+
+    def setUp(self):
+        self.params = pd.load_valid()
+
+    def row(self, limits, family, units, bound):
+        rows = pd.fit_rows(self.params, limits, (bound,))
+        return next(r for r in rows if r["family"] == family and r["units"] == units)
+
+    def test_irec_min_section_diagonal_does_not_fit_136_bore(self):
+        r = self.row({"bore": 136.0}, "irec", 1, "min")
+        self.assertEqual(r["section"], 98.0)
+        self.assertAlmostEqual(r["diagonal"], 138.59, places=2)
+        self.assertAlmostEqual(r["margins"]["bore"], -2.59, places=2)
+        self.assertFalse(r["fits"])
+
+    def test_section_fits_a_large_enough_bore(self):
+        r = self.row({"bore": 150.0}, "irec", 3, "max")
+        self.assertAlmostEqual(r["margins"]["bore"], 150.0 - 102.0 * 2 ** 0.5, places=6)
+        self.assertTrue(r["fits"])
+
+    def test_diagonal_equal_to_bore_fits(self):
+        d = pd.min_airframe_id(100.0, 100.0)
+        self.assertTrue(self.row({"bore": d}, "irec", 2, "nominal")["fits"])
+
+    def test_smallest_limit_governs(self):
+        r = self.row({"wide": 200.0, "narrow": 138.0}, "irec", 1, "min")
+        self.assertEqual(r["governing"], "narrow")
+        self.assertTrue(r["margins"]["wide"] > 0)
+        self.assertFalse(r["fits"])
+
+    def test_every_airframe_in_data_is_checked(self):
+        airframes = pd.airframe_limits()
+        files = sorted((pd.DATA_DIR / "airframes").glob("*.toml"))
+        self.assertEqual(len(airframes), len(files))
+        n = len(pd.build_targets(self.params)) * 3
+        for name, limits in airframes.items():
+            with self.subTest(airframe=name):
+                self.assertEqual(len(pd.fit_rows(self.params, limits)), n)
+
+    def test_hyperion_ii_fits_no_envelope(self):
+        limits = pd.airframe_limits()["hyperion_ii"]
+        self.assertEqual(limits, {"nose_cone_straight_id": 136.0, "body_tube_id": 136.0, "bulkhead_diameter": 132.44})
+        rows = pd.fit_rows(self.params, limits)
+        self.assertEqual([r for r in rows if r["fits"]], [])
+        self.assertEqual({r["governing"] for r in rows}, {"bulkhead_diameter"})
+
+    def test_rejects_limit_that_is_not_a_diameter_in_mm(self):
+        with self.assertRaises(pd.DataError) as cm:
+            pd.airframe_limits(FIXTURES / "bad_airframe_limit")
+        self.assertIn("positive diameter in mm", str(cm.exception))
+
+    def test_cli_reports_result_per_airframe(self):
+        proc = run_tool("airframe_fit.py")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIn("== hyperion_ii", proc.stdout)
+        self.assertIn("138.59", proc.stdout)
+        self.assertIn("NO FIT (bulkhead_diameter)", proc.stdout)
+        self.assertIn("0 of 27 family/size/bound combinations fit hyperion_ii", proc.stdout)
+
+
 class TestEnvelopeMath(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

@@ -29,7 +29,9 @@ REPO = Path(__file__).resolve().parent.parent
 DATA_DIR = REPO / "data"
 PARAMS_SCAD = REPO / "scad" / "generated" / "params.scad"
 
-KINDS = {"rule", "derived", "measured", "estimate", "recommendation"}
+# design: an existing vehicle's or part's dimension as its own design documents
+# state it (e.g. an airframe bore); neither a rule nor a measurement.
+KINDS = {"rule", "derived", "measured", "design", "estimate", "recommendation"}
 
 # Unit symbol -> meaning. Kept deliberately small; add a unit here, not ad hoc.
 UNITS = {
@@ -298,3 +300,69 @@ def build_targets(params: dict) -> list[tuple[str, int]]:
         "cds": min(v["envelope_cds_units_max"], len(v["cds_rail_length"])),
     }
     return [(f, n) for f in v["envelope_families"] for n in range(1, limits[f] + 1)]
+
+
+# --- Airframe fit -----------------------------------------------------------
+#
+# Each data/airframes/*.toml carries, under [limit], the round diameters the
+# payload cross-section has to pass (bores, bulkheads). A section fits a limit
+# when its diagonal is no larger than the limit's diameter. Cross-section only:
+# no radial clearance, no length, no nose-cone taper.
+
+AIRFRAMES_SUBDIR = "airframes"
+
+
+def airframe_limits(data_dir: Path = DATA_DIR) -> dict[str, dict[str, float]]:
+    """{airframe namespace: {limit name: diameter in mm}} for data/airframes/*.toml."""
+    data_dir = Path(data_dir)
+    out: dict[str, dict[str, float]] = {}
+    errs: list[str] = []
+    for f in data_files(data_dir / AIRFRAMES_SUBDIR):
+        ns, leaves, ferrs = load_file(f, data_dir)
+        errs.extend(ferrs)
+        if ns is None or ferrs:
+            continue
+        rel = str(f.relative_to(data_dir))
+        limits = {}
+        for parts, leaf in leaves:
+            if parts[0] != "limit":
+                continue
+            name, value = "_".join(parts[1:]), leaf["value"]
+            if len(parts) != 2 or leaf["unit"] != "mm" or _scalar_kind(value) != "number" or value <= 0:
+                errs.append(f"{rel}: [{'.'.join(parts)}] must be [limit.<name>] with a positive diameter in mm")
+                continue
+            limits[name] = float(value)
+        if not limits:
+            errs.append(f"{rel}: no [limit.<name>] diameters")
+            continue
+        out[ns] = limits
+    if errs:
+        raise DataError("\n".join(errs))
+    return out
+
+
+def fit_rows(params: dict, limits: dict[str, float], bounds=("min", "nominal", "max")) -> list[dict]:
+    """One row per (family, units, bound) the data defines, checked against every limit.
+
+    `margins` maps limit name -> diameter minus section diagonal (mm); the row
+    fits only if every margin is >= 0. `governing` is the limit with the
+    smallest margin.
+    """
+    rows = []
+    for family, units in build_targets(params):
+        for bound in bounds:
+            x, y, _ = envelope_size(params, family, units, bound)
+            diagonal = min_airframe_id(x, y)
+            margins = {name: d - diagonal for name, d in limits.items()}
+            governing = min(margins, key=margins.get)
+            rows.append({
+                "family": family,
+                "units": units,
+                "bound": bound,
+                "section": x,
+                "diagonal": diagonal,
+                "margins": margins,
+                "governing": governing,
+                "fits": all(m >= 0 for m in margins.values()),
+            })
+    return rows

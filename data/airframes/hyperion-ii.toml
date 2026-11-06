@@ -1,0 +1,43 @@
+# Airframe: Hyperion-II, the last vehicle the payload was designed for.
+# Every leaf is { value, unit, kind, source, note? }; see README "Data provenance".
+#
+# Leaves under [limit] are the round diameters the payload cross-section has to
+# pass. tools/airframe_fit.py checks every envelope against each of them.
+
+[meta]
+namespace = "hyperion_ii"
+title = "Hyperion-II airframe (5.5 in)"
+note = "Cross-section limits only. The nose-cone taper and the usable straight length are not encoded: the .ork places the payload's top 0.17 m forward of the straight section, into the taper, which is narrower still, so a section that fails the straight bore fails there too."
+
+[[meta.documents]]
+id = "Hyperion-II .ork"
+title = "OpenRocket model, Hyperion-II v3"
+revision = "burnoutlabs/Hyperion-II ork/hyperion_II_v3.ork (git blob a9b4be33)"
+url = "https://github.com/burnoutlabs/Hyperion-II/blob/main/ork/hyperion_II_v3.ork"
+
+[[meta.documents]]
+id = "Hyperion-II DSS"
+title = "Hyperion-II Design Summary Sheet"
+revision = "burnoutlabs/Hyperion-II DSS.md (git blob 2290aff5)"
+url = "https://github.com/burnoutlabs/Hyperion-II/blob/main/DSS.md"
+
+[limit.nose_cone_straight_id]
+value = 136.0
+unit = "mm"
+kind = "derived"
+source = "burnoutlabs/Hyperion-II ork/hyperion_II_v3.ork, body tube 'Nosecone - Flat Portion': radius 0.07 m, thickness 0.002 m; 2 x (70 - 2) mm"
+note = "DSS.md: COTS 5.5 in 5.5:1 Von Karman, flat portion 14 cm. The ogive part ('Nose Cone', wall 0.0022 m) has a 135.6 mm ID at its base and narrows forward of it."
+
+[limit.body_tube_id]
+value = 136.0
+unit = "mm"
+kind = "derived"
+source = "burnoutlabs/Hyperion-II ork/hyperion_II_v3.ork, every body tube (Main Chute Bay, Av Bay, Airbrakes-Drogue, Engine): radius 0.07 m, thickness 0.002 m; 2 x (70 - 2) mm"
+note = "Same bore as the nose cone's straight section, so moving the payload to a body-tube bay does not change the result."
+
+[limit.bulkhead_diameter]
+value = 132.44
+unit = "mm"
+kind = "design"
+source = "burnoutlabs/Hyperion-II DSS.md, Nose cone section: Aluminum Bulkhead, Diameter 13.244cm"
+note = "The .ork models its bulkheads with an automatic radius (coupler ID, 132 mm). Treated as a limit, as in issue #10; it is the smallest of the three, so it governs."

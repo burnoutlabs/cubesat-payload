@@ -32,6 +32,10 @@ validate:
 gen-check:
     {{ python }} tools/gen_params.py --check
 
+# Report which envelope sizes fit each airframe in data/airframes/, with margins
+airframe-fit:
+    {{ python }} tools/airframe_fit.py
+
 # Parse every Python file (syntax gate; writes nothing; no third-party linter)
 lint:
     @{{ python }} -c 'import ast, pathlib; fs = sorted(pathlib.Path(".").glob("t*/**/*.py")); [ast.parse(f.read_text(encoding="utf-8"), str(f)) for f in fs]; print(f"OK: {len(fs)} Python files parse")'
@@ -48,8 +52,8 @@ scad-check:
         done; \
     fi
 
-# Validate + lint + generated-file freshness + OpenSCAD check (non-mutating, CI-equivalent)
-check: validate lint gen-check scad-check
+# Validate + lint + generated-file freshness + airframe-fit report + OpenSCAD check (non-mutating, CI-equivalent)
+check: validate lint gen-check airframe-fit scad-check
 
 # Run the unit tests
 test:

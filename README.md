@@ -49,6 +49,26 @@ The two conflict on length: a CDS 3U overruns the IREC 3U maximum by 38.5 mm.
 The IREC figures are from the 2027 REV P1 rules; no 2026 edition could be
 found, so check the year that binds your build (see `data/rules/irec-2027-p1.toml`).
 
+## Airframe fit
+
+`just airframe-fit` (also run by `just check`) checks every envelope family,
+size and tolerance bound against the round diameters each airframe in
+`data/airframes/` lists under `[limit]`. A section fits when its diagonal is
+no larger than every limit; the margin is limit minus diagonal. Only the
+cross-section is checked: no radial clearance, length or nose-cone taper.
+
+**Hyperion-II** (`data/airframes/hyperion-ii.toml`, from
+[burnoutlabs/Hyperion-II](https://github.com/burnoutlabs/Hyperion-II)
+`ork/hyperion_II_v3.ork` and `DSS.md`): **no envelope fits.** Its body tubes
+and the nose cone's straight section are 136.0 mm ID and the aluminium
+bulkhead is Ø132.44 mm, which passes a square of at most 93.65 mm. Even the
+smallest IREC section (98 mm, diagonal 138.59 mm) misses the bore by 2.59 mm
+and the bulkhead by 6.15 mm. The Hyperion-II DSS sized its payload at 96 mm,
+"undersized from 10cm profile to fit existing nosecone", which is below the
+IREC minimum. A Payload Cube Unit at its maximum tolerance
+needs a bore of at least 144.25 mm plus clearance, i.e. a 6 in class
+airframe.
+
 ## Layout
 
 ```
@@ -56,11 +76,12 @@ data/               requirements as TOML: the single source of every number
   rules/            competition rules (IREC, Launch Canada)
   standards/        CDS, PC/104, LibreCube board outline
   loads.toml        measured, published and recommended design loads
+  airframes/        one file per vehicle: the diameters the payload must pass
   envelopes.toml    envelope-family selection
 scad/
   envelope.scad     payload_envelope(), min_airframe_id(), top-level render
   generated/        params.scad, generated from data/ (committed, never hand-edited)
-tools/              validate_data.py, gen_params.py, list_targets.py (stdlib only)
+tools/              validate_data.py, gen_params.py, list_targets.py, airframe_fit.py (stdlib only)
 tests/              unittest suite and validator fixtures
 ```
 
@@ -72,8 +93,9 @@ users do not need Python.
 
 ```sh
 just setup    # check python, report whether openscad is installed
-just check    # validate data, check params.scad is current, evaluate scad/ (CI-equivalent)
+just check    # validate data, check params.scad is current, report airframe fit, evaluate scad/ (CI-equivalent)
 just test     # unit tests
+just airframe-fit  # which envelope sizes fit each airframe, with margins
 just build    # render every envelope to build/*.stl (needs openscad)
 just gen      # after editing data/: regenerate params.scad, then commit both
 ```
@@ -89,8 +111,11 @@ Every number has a source. Each entry in `data/` carries `value`, `unit`,
 
 - `source` names the document and clause, or the repository and path, that the
   value comes from.
-- `kind` is one of `rule`, `derived`, `measured`, `estimate` or
+- `kind` is one of `rule`, `derived`, `measured`, `design`, `estimate` or
   `recommendation`, so a design margin is never mistaken for a requirement.
+  `design` is a dimension of an existing vehicle or part as its own design
+  documents state it (for example an airframe's bulkhead diameter): a fact
+  about that design, not a rule and not a measurement.
 - Units come from a fixed set (`tools/payload_data.py`); `just check` rejects
   anything else, a missing field, or a duplicate key.
 

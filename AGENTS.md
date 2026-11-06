@@ -31,8 +31,9 @@ tests/             unittest suite; fixtures/ holds deliberately bad data
 ```sh
 just setup        # check python >= 3.11, report openscad
 just gen          # regenerate scad/generated/params.scad from data/
-just check        # validate + lint + gen --check + openscad check (CI-equivalent)
+just check        # validate + lint + gen --check + airframe fit + openscad check (CI-equivalent)
 just test         # python -m unittest
+just airframe-fit # envelope fit against data/airframes/, with margins
 just build        # render build/*.stl (fails without openscad)
 just clean        # remove build/ and caches
 ```
@@ -45,8 +46,9 @@ Run `just check && just test` before every commit.
   `data/` with a real `source`; then `just gen` and commit both.
 - **Never hand-edit `scad/generated/`.** `just check` fails if it drifts.
 - **No literal dimensions in `scad/`.** Read them from the generated params.
-- Mark what a value is: `rule`, `derived`, `measured`, `estimate` or
-  `recommendation`. Never present an estimate as a rule.
+- Mark what a value is: `rule`, `derived`, `measured`, `design`, `estimate`
+  or `recommendation`. Never present an estimate as a rule. `design` is an
+  existing vehicle's or part's dimension as its design documents state it.
 - The envelope math exists twice, in `tools/payload_data.py` and
   `scad/envelope.scad`. Change both; the parity test compares them when
   openscad is installed.

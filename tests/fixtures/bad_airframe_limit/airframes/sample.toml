@@ -1,0 +1,10 @@
+# Deliberately bad: an airframe limit that is not a diameter in mm.
+[meta]
+namespace = "bad_airframe"
+title = "Airframe with a limit in the wrong unit"
+
+[limit.bore]
+value = 5.5
+unit = "1"
+kind = "design"
+source = "test fixture"
