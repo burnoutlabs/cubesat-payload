@@ -105,7 +105,8 @@ Without OpenSCAD, `just check` prints `SKIPPED: openscad not installed` for
 its OpenSCAD step rather than claiming it passed, and the SCAD/Python parity
 test reports itself as skipped. Set `REQUIRE_OPENSCAD=1` to make both fail
 instead; CI (`.github/workflows/check.yml`) installs OpenSCAD and sets it, so
-the OpenSCAD checks cannot be skipped there.
+the OpenSCAD checks cannot be skipped there. CI also runs `just build` and
+uploads the rendered `build/*.stl` as the `envelope-stl` workflow artifact.
 
 ## Data provenance
 

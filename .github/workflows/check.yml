@@ -45,3 +45,16 @@ jobs:
 
       - name: Test
         run: just test
+
+      # Renders every envelope the data defines; fails on any OpenSCAD error
+      # or warning (--hardwarnings), so a broken scad/ turns the job red here
+      # as well as in `just check`.
+      - name: Build
+        run: just build
+
+      - name: Upload STLs
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: envelope-stl
+          path: build/*.stl
+          if-no-files-found: error
