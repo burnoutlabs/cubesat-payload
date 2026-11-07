@@ -40,7 +40,8 @@ just clean        # remove build/ and caches
 
 Run `just check && just test` before every commit. CI runs the same two
 recipes with OpenSCAD installed and `REQUIRE_OPENSCAD=1`, which turns the
-OpenSCAD skip into a failure.
+OpenSCAD skip into a failure, then `just build` and uploads `build/*.stl` as
+the `envelope-stl` workflow artifact.
 
 ## Conventions
 

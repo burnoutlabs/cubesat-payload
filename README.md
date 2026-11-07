@@ -74,7 +74,7 @@ airframe.
 ```
 data/               requirements as TOML: the single source of every number
   rules/            competition rules (IREC, Launch Canada)
-  standards/        CDS, PC/104, LibreCube board outline
+  standards/        CDS, PC/104, LibreCube board outline and H1/H2 pinout
   loads.toml        measured, published and recommended design loads
   airframes/        one file per vehicle: the diameters the payload must pass
   envelopes.toml    envelope-family selection
@@ -105,7 +105,8 @@ Without OpenSCAD, `just check` prints `SKIPPED: openscad not installed` for
 its OpenSCAD step rather than claiming it passed, and the SCAD/Python parity
 test reports itself as skipped. Set `REQUIRE_OPENSCAD=1` to make both fail
 instead; CI (`.github/workflows/check.yml`) installs OpenSCAD and sets it, so
-the OpenSCAD checks cannot be skipped there.
+the OpenSCAD checks cannot be skipped there. CI also runs `just build` and
+uploads the rendered `build/*.stl` as the `envelope-stl` workflow artifact.
 
 ## Data provenance
 

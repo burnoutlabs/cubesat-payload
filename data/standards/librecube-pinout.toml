@@ -1,0 +1,83 @@
+# LibreCube board specification: H1/H2 header pin allocation.
+# Every leaf is { value, unit, kind, source, note? }; see README "Data provenance".
+# Decision D-001 (docs/decisions.md) adopts this bus; the board outline is in librecube.toml.
+
+[meta]
+namespace = "librecube_pinout"
+title = "LibreCube Board Specification (H1/H2 pin allocation)"
+note = """
+The page carries no version or date. Read 2026-11-07; the server reported
+Last-Modified: Mon, 19 Oct 2026 12:16:49 GMT and
+ETag "sha256-0487df9f1e56e511db55f077707d3225276c3c422178582cea1f25f734093c95".
+Each signal list is indexed by pin number: element 1 is pin 1. Pins the
+Connector H1/H2 tables do not list are "NC"; pin_allocations.png draws each of
+them as a no-connect (X). Docs are CC BY 4.0; pin names are facts and are
+re-entered here."""
+
+[[meta.documents]]
+id = "LibreCube board spec"
+title = "LibreCube Board Specification, Electrical Specification"
+revision = "unversioned; Last-Modified 2026-10-19"
+effective = "read 2026-11-07"
+url = "https://librecube.codeberg.page/docs/standards/board_specification/"
+
+[h1.pin_count]
+value = 52
+unit = "1"
+kind = "rule"
+source = "LibreCube board spec, connector_headers.png (2 x 26, pins 1-52)"
+
+[h1.signal]
+value = [
+  "CAN_A_L", "CAN_B_L", "CAN_A_H", "CAN_B_H",  # pins 1-4
+  "UART_A_UP", "UART_B_UP", "UART_A_DN", "UART_B_DN",  # pins 5-8
+  "NC", "NC", "NC", "NC",  # pins 9-12
+  "UART_C_UP", "NC", "UART_C_DN", "NC",  # pins 13-16
+  "NC", "NC", "NC", "NC",  # pins 17-20
+  "NC", "UART_D_UP", "NC", "UART_D_DN",  # pins 21-24
+  "PWR_PERM", "PWR_PERM", "NC", "NC",  # pins 25-28
+  "NC", "NC", "CHARGE", "CHARGE",  # pins 29-32
+  "GND", "GND", "NC", "NC",  # pins 33-36
+  "NC", "UART_E_UP", "NC", "UART_E_DN",  # pins 37-40
+  "NC", "UART_F_UP", "NC", "UART_F_DN",  # pins 41-44
+  "ENA_PWR_1", "PWR_1", "ENA_PWR_2", "PWR_2",  # pins 45-48
+  "ENA_PWR_3", "PWR_3", "ENA_PWR_4", "PWR_4",  # pins 49-52
+]
+unit = "text"
+kind = "rule"
+source = "LibreCube board spec, Connector H1 table; NC pins from pin_allocations.png"
+note = """
+Published inconsistency: pin 40 is named UART_E_DN but described as "Payload
+Bus F Downlink (115200 baud)". Pin 44 is UART_F_DN, also "Payload Bus F
+Downlink", and pin 38 is UART_E_UP ("Payload Bus E Uplink"), so the name is
+taken as correct and the description as a copy error. pin_allocations.png
+also labels pin 40 UART_E_DN."""
+
+[h2.pin_count]
+value = 52
+unit = "1"
+kind = "rule"
+source = "LibreCube board spec, connector_headers.png (2 x 26, pins 1-52)"
+
+[h2.signal]
+value = [
+  "ENA_PWR_9", "PWR_9", "ENA_PWR_10", "PWR_10",  # pins 1-4
+  "ENA_PWR_11", "PWR_11", "ENA_PWR_12", "PWR_12",  # pins 5-8
+  "ENA_PWR_13", "PWR_13", "ENA_PWR_14", "PWR_14",  # pins 9-12
+  "ENA_PWR_15", "PWR_15", "ENA_PWR_16", "PWR_16",  # pins 13-16
+  "ENA_PWR_17", "PWR_17", "ENA_PWR_18", "PWR_18",  # pins 17-20
+  "ENA_PWR_19", "PWR_19", "ENA_PWR_20", "PWR_20",  # pins 21-24
+  "PWR_PERM", "PWR_PERM", "NC", "NC",  # pins 25-28
+  "GND", "GND", "GND", "GND",  # pins 29-32
+  "ENA_PWR_5", "PWR_5", "ENA_PWR_6", "PWR_6",  # pins 33-36
+  "ENA_PWR_7", "PWR_7", "ENA_PWR_8", "PWR_8",  # pins 37-40
+  "NC", "NC", "NC", "NC",  # pins 41-44
+  "BATT", "BATT", "NC", "NC",  # pins 45-48
+  "RBF_A", "RBF_B", "DS_A", "DS_B",  # pins 49-52
+]
+unit = "text"
+kind = "rule"
+source = "LibreCube board spec, Connector H2 table; NC pins from pin_allocations.png"
+note = """
+Pins 51 and 52 are DS_A and DS_B (Deployment Switch) in the table and DEP_A and
+DEP_B in pin_allocations.png. The table's names are used."""
