@@ -228,6 +228,39 @@ REQUIRE_OPENSCAD = os.environ.get("REQUIRE_OPENSCAD") == "1"
     shutil.which("openscad") or REQUIRE_OPENSCAD,
     "openscad not installed: SCAD/Python parity not checked",
 )
+class TestLibreCubePinout(unittest.TestCase):
+    """data/standards/librecube-pinout.toml: one signal per pin, every pin listed."""
+
+    def setUp(self):
+        self.params = pd.load_valid()
+
+    def test_every_pin_has_exactly_one_entry(self):
+        for header in ("h1", "h2"):
+            with self.subTest(header=header):
+                signals = self.params[f"librecube_pinout_{header}_signal"]["value"]
+                count = self.params[f"librecube_pinout_{header}_pin_count"]["value"]
+                self.assertEqual(count, 52)
+                self.assertEqual(len(signals), count)
+
+    def test_signal_names_are_well_formed(self):
+        for header in ("h1", "h2"):
+            for pin, name in enumerate(self.params[f"librecube_pinout_{header}_signal"]["value"], 1):
+                with self.subTest(header=header, pin=pin):
+                    self.assertRegex(name, r"^[A-Z][A-Z0-9_]*$")
+
+    def test_each_switched_power_line_has_its_enable_on_the_adjacent_pin(self):
+        pins = {}
+        for header in ("h1", "h2"):
+            for pin, name in enumerate(self.params[f"librecube_pinout_{header}_signal"]["value"], 1):
+                pins.setdefault(name, []).append((header, pin))
+        for n in range(1, 21):
+            with self.subTest(line=n):
+                self.assertEqual(len(pins.get(f"PWR_{n}", [])), 1)
+                self.assertEqual(len(pins.get(f"ENA_PWR_{n}", [])), 1)
+                (h, p), (eh, ep) = pins[f"PWR_{n}"][0], pins[f"ENA_PWR_{n}"][0]
+                self.assertEqual((h, p), (eh, ep + 1))
+
+
 class TestScadParity(unittest.TestCase):
     """The envelope math exists in Python and OpenSCAD; check they agree."""
 

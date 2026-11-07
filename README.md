@@ -74,7 +74,7 @@ airframe.
 ```
 data/               requirements as TOML: the single source of every number
   rules/            competition rules (IREC, Launch Canada)
-  standards/        CDS, PC/104, LibreCube board outline
+  standards/        CDS, PC/104, LibreCube board outline and H1/H2 pinout
   loads.toml        measured, published and recommended design loads
   airframes/        one file per vehicle: the diameters the payload must pass
   envelopes.toml    envelope-family selection

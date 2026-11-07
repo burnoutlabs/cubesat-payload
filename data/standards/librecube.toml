@@ -4,7 +4,7 @@
 [meta]
 namespace = "librecube"
 title = "LibreCube Board Specification (outline subset)"
-note = "The page carries no version or date (read 2026-11-05). Docs are CC BY 4.0; dimensions are facts and are re-entered here, not copied geometry. The H1/H2 pinout is not encoded."
+note = "The page carries no version or date (read 2026-11-05). Docs are CC BY 4.0; dimensions are facts and are re-entered here, not copied geometry. The H1/H2 pin allocation is in librecube-pinout.toml."
 
 [[meta.documents]]
 id = "LibreCube board spec"
